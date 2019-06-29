@@ -8,7 +8,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RequestConfirmation"
-    android:background="@drawable/gradiant">
+    android:background="@drawable/gradiant"
+    android:theme="@style/AppTheme.AppBarOverlay"
+    >
 
     <fragment
         class="com.google.android.gms.maps.SupportMapFragment"
@@ -101,7 +103,6 @@
         android:background="@mipmap/drop_down"
         android:entries="@array/Severity_of_The_Incedent"
         android:gravity="center"
-
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@+id/dropdownthree"
         app:layout_constraintEnd_toEndOf="parent"
@@ -129,11 +130,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@mipmap/drop_down"
-
-
         android:entries="@array/Number_of_Injured"
         android:gravity="center"
-
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@+id/confirm_button"
         app:layout_constraintEnd_toEndOf="parent"

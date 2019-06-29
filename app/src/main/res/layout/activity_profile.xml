@@ -17,7 +17,7 @@
         app:civ_border_color="#511010"
 
         android:layout_marginStart="8dp"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="40dp"
 
@@ -130,6 +130,7 @@
         app:layout_constraintBottom_toTopOf="@id/save_button"
 
         android:hint="@string/email"
+        android:textSize="12sp"
         />
 
 
@@ -143,7 +144,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="150dp"
+        android:layout_marginBottom="50dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

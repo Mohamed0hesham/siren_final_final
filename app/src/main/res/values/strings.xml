@@ -14,7 +14,7 @@
     <string name="change_picture">change picture </string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
-    <string name="phone_number">+01000000000</string>
+    <string name="phone_number">01234567891</string>
     <string name="email">Email here</string>
     <string name="street_name">Street Name</string>
     <string name="description">type your description here</string>
@@ -30,7 +30,7 @@
     <string name="siren_emergency_app">Siren Emergency App</string>
 
     <string-array name="Incident_Type_Items">
-        <item>Empty</item>
+
         <item>Car Accident</item>
         <item>Fire</item>
         <item>Hit and Run</item>
@@ -38,7 +38,7 @@
     </string-array>
 
     <string-array name="Severity_of_The_Incedent">
-        <item>Empty</item>
+
         <item>Low</item>
         <item>Medium</item>
         <item>High</item>

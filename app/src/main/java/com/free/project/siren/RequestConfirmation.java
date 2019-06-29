@@ -3,12 +3,15 @@ package com.free.project.siren;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -22,6 +25,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
@@ -33,36 +39,38 @@ public class RequestConfirmation extends AppCompatActivity implements AdapterVie
     private String latitude;
     private String lngtude;
     private GoogleMap mMap;
-    private DatabaseReference customerDatabaseRef;
+    private DatabaseReference customerDatabaseRef , ref;
+
+
     private FirebaseAuth mAuth;
     private String requestID;
     private Double lat,lng;
     private LatLng customerPickUpLocation;
+    private Spinner incedent_type , severity_of_the_incedent , expectednumberofinjuries ;
    // private String info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_request_confirmation);
 
-/*
-        //spinner color to white :(
-        Spinner coloredSpinner = findViewById(R.id.incedent_type);
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(
-                this,
-                R.array.Incident_Type_Items,
-                R.layout.color_spinner_layout
-        );
-       // adapter.setDropDownViewResource(R.layout.spinner_dropdown_layout);
-        coloredSpinner.setAdapter(adapter);
-        coloredSpinner.setOnItemSelectedListener(this);*/
+        ref = FirebaseDatabase.getInstance().getReference() ;
 
+         incedent_type = findViewById(R.id.incedent_type);
+        severity_of_the_incedent = findViewById(R.id.severity_of_the_incedent);
+
+        expectednumberofinjuries = findViewById(R.id.expectednumberofinjuries);
 
 
         customerDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Customers Requests");
         mAuth = FirebaseAuth.getInstance();
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+
         requestID = database.getReference("Customers Requests").push().getKey();
+
         final AppCompatTextView streetNameTextView = findViewById(R.id.street_name);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -74,15 +82,15 @@ public class RequestConfirmation extends AppCompatActivity implements AdapterVie
                 mMap = googleMap;
 
                 try {
-            /*
-            Double lat = Double.parseDouble(latitude);
-            Double lng = Double.parseDouble(lngtude);
-            Double lng = getIntent().getDoubleExtra("PickUpLngtude", Double.parseDouble(null));
-*/
-                    latitude = getIntent().getStringExtra("PickUpLatitude");
-                    lngtude = getIntent().getStringExtra("PickUpLngtude");
+//
+//            Double lat = Double.parseDouble(latitude);
+//            Double lng = Double.parseDouble(lngtude);
+//            Double lng1 = getIntent().getDoubleExtra("PickUpLngtude", Double.parseDouble(null));
 
-                     lat = Double.parseDouble(latitude);
+                    latitude =getIntent().getStringExtra("PickUpLatitude");
+                    lngtude =  getIntent().getStringExtra("PickUpLngtude");
+
+                    lat = Double.parseDouble(latitude);
                      lng = Double.parseDouble(lngtude);
 
                     streetNameTextView.setText("Lat: "+latitude +"\n" + "Lng: "+lngtude);
@@ -113,6 +121,7 @@ public class RequestConfirmation extends AppCompatActivity implements AdapterVie
 
 
         AppCompatImageButton confirmBtn = findViewById(R.id.confirm_button);
+
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -123,9 +132,25 @@ public class RequestConfirmation extends AppCompatActivity implements AdapterVie
                     geoFire.setLocation(requestID, new GeoLocation(lat,lng));
 
                     customerPickUpLocation = new LatLng(lat,lng);
-                    //customerDatabaseRef.setValue(info);
-                    //customerDatabaseRef.setValue(lat);
-                    //customerDatabaseRef.setValue(lng);
+
+                    ref.child("Customers Requests").child(requestID).child("info").setValue("Accident Type : "+ incedent_type.getSelectedItem().toString() +"."
+                    +" Severity of accident : "+severity_of_the_incedent.getSelectedItem().toString()+". number of injuries : "+ expectednumberofinjuries.getSelectedItem().toString()+"."
+                    ).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            finish();
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                            Toast.makeText(RequestConfirmation.this, e.getMessage()+"", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+
+
 
 
 

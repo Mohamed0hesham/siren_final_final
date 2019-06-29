@@ -19,6 +19,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,8 +48,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-
+    String x = "";
     private GoogleMap mMap;
+    double latitude ;
+    double lngtiude ;
+    boolean stop = true ;
     Boolean mLocationPermissionGranted;
     final String FINE_LOCATION = android.Manifest.permission.ACCESS_FINE_LOCATION;
     final String COURSE_LOCATION = android.Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -66,10 +71,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
+
+        Window window = this.getWindow();
+
+// clear FLAG_TRANSLUCENT_STATUS flag:
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+// add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+// finally change the color
+        window.setStatusBarColor(ContextCompat.getColor(this,R.color.colorPrimary));
+
+
 
         navigationView = findViewById(R.id.nav_view);
         View headerView = navigationView.getHeaderView(0);
@@ -87,20 +110,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
 
-                Intent requestIntent = new Intent(MainActivity.this, RequestConfirmation.class);
-                try {
 
-                    double latitude = pickupMarker.getPosition().latitude;
-                    double lngtiude = pickupMarker.getPosition().longitude;
 
-                    String lat = String.valueOf(latitude);
-                    String lng = String.valueOf(lngtiude);
-                    requestIntent.putExtra("PickUpLatitude", lat);
-                    requestIntent.putExtra("PickUpLngtude", lng);
+                       try {
+                          if (pickupMarker.getPosition().latitude!= 0.0) {
+                              Intent requestIntent = new Intent(MainActivity.this, RequestConfirmation.class);
 
-                } catch (NullPointerException ignored) {
-                }
-                startActivity(requestIntent);
+                              lngtiude = pickupMarker.getPosition().longitude;
+                              latitude = pickupMarker.getPosition().latitude;
+
+                              String lat = String.valueOf(latitude);
+                              String lng = String.valueOf(lngtiude);
+
+                              requestIntent.putExtra("PickUpLatitude", lat);
+                              requestIntent.putExtra("PickUpLngtude", lng);
+                              startActivity(requestIntent);
+                          }
+                       } catch (NullPointerException ignored) {
+
+                           Intent requestIntent = new Intent(MainActivity.this, RequestConfirmation.class);
+                           try {
+
+
+                               String lat = String.valueOf(latitude);
+                               String lng = String.valueOf(lngtiude);
+
+                               requestIntent.putExtra("PickUpLatitude", lat);
+                               requestIntent.putExtra("PickUpLngtude", lng);
+
+                           } catch (NullPointerException ignored6) {
+                           }
+
+                           startActivity(requestIntent);
+                       }
+
+
+
+
+
+
+
+
+
 
             }
         });
@@ -240,6 +291,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         if (task.isSuccessful() && task.getResult() != null) {
 
                             Location currentLocation = (Location) task.getResult();
+
+                            latitude = currentLocation.getLatitude() ;
+                            lngtiude = currentLocation.getLongitude() ;
+
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM, "My Location");
 
                         } else {

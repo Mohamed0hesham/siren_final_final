@@ -12,7 +12,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@mipmap/logo"
+        android:src="@mipmap/siren_icon"
         app:civ_border_width="0.8dp"
         app:civ_border_color="#511010"
 
@@ -55,6 +55,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="5dp"
 
+        android:textCursorDrawable="@null"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,7 +63,7 @@
         app:layout_constraintBottom_toTopOf="@id/register_last_name"
 
         android:hint="@string/first_name"
-        android:paddingLeft="100dp"
+        android:paddingLeft="120dp"
         />
 
     <android.support.v7.widget.AppCompatEditText
@@ -72,6 +73,7 @@
         android:background="@mipmap/edit_last_name_section"
         android:singleLine="true"
 
+        android:textCursorDrawable="@null"
         android:layout_marginStart="8dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="8dp"
@@ -83,7 +85,7 @@
         app:layout_constraintBottom_toTopOf="@id/register_phone_number"
 
         android:hint="@string/last_name"
-        android:paddingLeft="100dp"
+        android:paddingLeft="120dp"
 
 
         />
@@ -105,8 +107,9 @@
         app:layout_constraintTop_toBottomOf="@+id/register_last_name"
         app:layout_constraintBottom_toTopOf="@id/register_email"
 
+        android:textCursorDrawable="@null"
         android:hint="@string/phone_number"
-        android:paddingLeft="130dp"
+        android:paddingLeft="120dp"
         />
 
     <android.support.v7.widget.AppCompatEditText
@@ -126,8 +129,9 @@
         app:layout_constraintTop_toBottomOf="@+id/register_phone_number"
         app:layout_constraintBottom_toTopOf="@id/register_password"
 
-        android:paddingLeft="130dp"
-        android:hint="em@xxx.com"
+        android:textCursorDrawable="@null"
+        android:paddingLeft="120dp"
+        android:hint="example@email.com"
         android:textAlignment="center"
         />
 
@@ -138,13 +142,14 @@
         android:background="@mipmap/password_reg"
         android:singleLine="true"
         android:inputType="textPassword"
-        android:gravity="center"
+        android:paddingLeft="120dp"
 
         android:layout_marginStart="8dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
 
+        android:textCursorDrawable="@null"
 
         android:hint="*********"
         android:textAlignment="center"
